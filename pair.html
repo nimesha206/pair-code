@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>XMD — Pair Code</title>
+  <title>NENO XMD — Pair Code</title>
 
-  <meta property="og:title" content="XMD — Pair Code">
-  <meta property="og:description" content="Pair-code linker for WhatsApp bot — XMD">
+  <meta property="og:title" content="NENO XMD — Pair Code">
+  <meta property="og:description" content="Pair-code linker for WhatsApp bot — NENO XMD">
   <meta property="og:image" content="https://files.catbox.moe/y65ffs.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Graduate&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
@@ -14,6 +14,7 @@
     :root{
       --accent:#25d366;
       --accent-dark:#0aa04a;
+      --neon:#7ef9b3;
       --glass: rgba(255,255,255,0.06);
       --card-bg: rgba(0,0,0,0.55);
       --muted: rgba(255,255,255,0.75);
@@ -22,10 +23,12 @@
       radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.03), transparent),
       linear-gradient(180deg, #072233 0%, #001826 60%); color:#fff; -webkit-font-smoothing:antialiased;}
 
+    /* subtle glow behind */
     .back-glow{position:fixed; inset:0; pointer-events:none; z-index:0;
-      background: radial-gradient(600px 300px at 80% 10%, rgba(2,141,172,0.08), transparent);
+      background: radial-gradient(600px 300px at 80% 10%, rgba(2,141,172,0.06), transparent);
       mix-blend-mode: screen;}
 
+    /* snow/falling dots */
     .snow { position:fixed; inset:0; overflow:hidden; z-index:1; pointer-events:none; }
     .flake{ position:absolute; top:-5vh; width:10px; height:10px; border-radius:50%;
       background:linear-gradient(180deg,#ffffff,#dfefff); opacity:0.9; filter:blur(.2px);
@@ -45,18 +48,36 @@
     .wrap{ position:relative; z-index:2; display:flex; gap:28px; align-items:center; justify-content:center;
       min-height:100vh; padding:40px; }
 
-    .card { width:420px; max-width:calc(100% - 40px); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.06); border-radius:14px; padding:22px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    .card { width:460px; max-width:calc(100% - 40px); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.06); border-radius:14px; padding:20px 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       backdrop-filter: blur(6px); }
 
     .brand { display:flex; align-items:center; gap:14px; margin-bottom:8px; }
-    .logo { width:64px; height:64px; border-radius:12px;
-      background:linear-gradient(135deg,var(--accent),#06b37a); display:flex; align-items:center; justify-content:center;
-      font-weight:800; font-family:'Graduate'; font-size:22px; box-shadow: 0 6px 18px rgba(37,211,102,0.12); color:#012; }
-    .brand h1{ margin:0; font-size:20px; letter-spacing:0.6px; }
-    .brand p{ margin:0; font-size:12px; color:var(--muted); }
+    /* neon logo */
+    .logo {
+      width:74px; height:74px; border-radius:14px;
+      background:linear-gradient(135deg,#0fffb8,#8ef6c6);
+      display:flex; align-items:center; justify-content:center; font-weight:900; font-family:'Graduate';
+      font-size:22px; color:#012; position:relative;
+      box-shadow: 0 6px 28px rgba(126,249,179,0.14), 0 0 18px rgba(126,249,179,0.08) inset;
+      overflow:visible;
+    }
+    /* animated neon text */
+    .neon-title {
+      font-family: 'Graduate', cursive;
+      font-size:28px;
+      letter-spacing:2px;
+      color: #bfffd8;
+      text-shadow:
+        0 0 6px rgba(126,249,179,0.9),
+        0 0 18px rgba(126,249,179,0.6),
+        0 0 30px rgba(126,249,179,0.3);
+      margin:0;
+      transform:translateY(-2px);
+    }
+    .brand p{ margin:0; font-size:12px; color:var(--muted); margin-top:6px; }
 
-    .title{ font-size:14px; color:var(--muted); margin-top:16px; margin-bottom:6px; }
+    .title{ font-size:14px; color:var(--muted); margin-top:10px; margin-bottom:6px; }
 
     .input-row { display:flex; gap:10px; margin-top:10px; }
     .input { flex:1; display:flex; background:var(--glass); border-radius:12px; padding:8px; align-items:center;
@@ -84,9 +105,27 @@
     .spinner{ display:inline-block; width:18px; height:18px; border-radius:50%; border:3px solid rgba(255,255,255,0.12); border-top-color:#fff; animation:spin 0.9s linear infinite; }
     @keyframes spin { to { transform:rotate(360deg); } }
 
+    /* audio controls area */
+    .audio-bar { margin-top:14px; display:flex; gap:10px; align-items:center; justify-content:space-between; }
+    .audio-controls { display:flex; gap:8px; align-items:center; }
+    .play-btn {
+      width:44px; height:44px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center;
+      background:linear-gradient(180deg,#ffffff,#dff9ea); color:#012; font-weight:800; border:0; cursor:pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+    .track-title { color:var(--muted); font-size:13px; }
+
     footer { position:fixed; bottom:12px; left:50%; transform:translateX(-50%); font-size:13px; color:rgba(255,255,255,0.55); z-index:3; width:100%; text-align:center; pointer-events:none; }
 
-    @media (max-width:460px){ .brand h1{font-size:18px;} .logo{width:56px;height:56px;font-size:18px} }
+    /* neon flicker animation for heading */
+    @keyframes neonFlicker {
+      0% { text-shadow: 0 0 6px rgba(126,249,179,0.9), 0 0 18px rgba(126,249,179,0.6); opacity:1 }
+      50% { text-shadow: 0 0 3px rgba(126,249,179,0.5); opacity:0.85 }
+      100% { text-shadow: 0 0 6px rgba(126,249,179,0.9), 0 0 18px rgba(126,249,179,0.6); opacity:1 }
+    }
+    .neon-title { animation: neonFlicker 3.5s ease-in-out infinite; }
+
+    @media (max-width:520px){ .card{width:calc(100% - 30px)} .logo{width:64px;height:64px} .neon-title{font-size:22px} }
   </style>
 </head>
 <body>
@@ -109,9 +148,9 @@
   <div class="wrap">
     <div class="card" role="main" aria-label="Pair code generator">
       <div class="brand">
-        <div class="logo">XMD</div>
+        <div class="logo">NENO</div>
         <div>
-          <h1>XMD</h1>
+          <h1 class="neon-title">NENO XMD</h1>
           <p>Bot • by NIMESHKA MIHIRAN</p>
         </div>
       </div>
@@ -142,11 +181,28 @@
             <button id="openBtn" class="btn ghost" title="Open in WhatsApp">Open</button>
           </div>
         </div>
+
+        <!-- audio controls -->
+        <div class="audio-bar">
+          <div class="audio-controls">
+            <button id="playBtn" class="play-btn" title="Play / Pause (music may be blocked by browser until user interaction)">
+              ▶
+            </button>
+            <div class="track-title">Track: Neno light — plays on load (if allowed)</div>
+          </div>
+
+          <div style="text-align:right;">
+            <a href="https://github.com/Nimeshkamihiran/neno-xmd-bot" target="_blank" rel="noopener" class="small" style="color:var(--muted); text-decoration:underline;">Repo • github.com/Nimeshkamihiran/neno-xmd-bot</a>
+          </div>
+        </div>
       </form>
     </div>
   </div>
 
-  <footer>© <strong>XMD</strong> • NIMESHKA MIHIRAN — <span id="year"></span></footer>
+  <footer>© <strong>NENO XMD</strong> • NIMESHKA MIHIRAN — <span id="year"></span></footer>
+
+  <!-- audio element (hidden) -->
+  <audio id="bgAudio" loop preload="auto" src="https://files.catbox.moe/z747y9.mp3"></audio>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -160,468 +216,143 @@
     const statusMsg = document.getElementById('statusMsg');
     const btnText = document.getElementById('btnText');
 
-    function prettyFormat(n){
-      const d = (n || '').toString().replace(/\D/g,'');
-      if(!d) return '';
-      // if starts with country code like 94
-      if(d.startsWith('94') && d.length>2) {
-        return '+' + d.slice(0,2) + ' ' + d.slice(2,5) + ' ' + d.slice(5,8) + ' ' + d.slice(8);
-      }
-      return '+' + d.replace(/(\d{1,3})(?=(\d{3})+$)/g, "$1 ");
-    }
+    const playBtn = document.getElementById('playBtn');
+    const bgAudio = document.getElementById('bgAudio');
 
-    function showLoading(on=true){
-      if(on){
-        btnText.innerHTML = '<span class="spinner" aria-hidden="true"></span>';
-        submit.disabled = true;
-        submit.style.opacity = 0.9;
-      } else {
-        btnText.textContent = 'CODE';
-        submit.disabled = false;
-      }
-    }
-
-    function fallbackCode(number){
-      const d = (number||'').replace(/\D/g,'') || Math.floor(Math.random()*9000000+1000000).toString();
-      return 'XMD' + d.slice(-6).toUpperCase();
-    }
-
-    submit.addEventListener('click', async () => {
-      const raw = numberInput.value || '';
-      const digits = raw.replace(/\D/g,'');
-      if(!digits){
-        pairArea.style.display = 'block';
-        copyText.textContent = '❗ Enter your WhatsApp number';
-        statusMsg.textContent = '';
-        return;
-      }
-      if(digits.length < 9){
-        pairArea.style.display = 'block';
-        copyText.textContent = '❗ Invalid number';
-        statusMsg.textContent = 'Make sure to include the country code e.g. 947*************';
-        return;
-      }
-
-      numberInput.value = prettyFormat(digits);
-
-      pairArea.style.display = 'block';
-      copyText.textContent = 'Generating...';
-      statusMsg.textContent = '';
-      showLoading(true);
-
+    // attempt to autoplay on load; modern browsers often block autoplay with sound.
+    async function tryAutoplay() {
       try {
-        // request to your server endpoint; adjust path if needed
-        const response = await fetch(`/code?number=${digits}`, { method: 'GET' });
-        if(!response.ok) throw new Error('no-server');
-        const data = await response.json();
-        const code = (data && data.code) ? data.code : fallbackCode(digits);
-        copyText.textContent = code;
-        statusMsg.textContent = 'Tap Copy to copy the code.';
-      } catch (err) {
-        // fallback if server not available
-        const code = fallbackCode(digits);
-        copyText.textContent = code;
-        statusMsg.textContent = 'Using local fallback code (server unavailable).';
-      } finally {
-        showLoading(false);
+        // some browsers require muted autoplay; we'll attempt unmuted play first
+        await bgAudio.play();
+        // if succeeds, set play icon to pause
+        playBtn.textContent = '⏸';
+      } catch (e) {
+        // autoplay blocked — leave audio paused and show play icon; on first user interaction we'll play
+        playBtn.textContent = '▶';
       }
+    }
+
+    // try autoplay after a slight delay (run on load)
+    window.addEventListener('load', () => {
+      // small timeout to let resources settle
+      setTimeout(() => tryAutoplay(), 350);
     });
 
-    copyBtn.addEventListener('click', async () => {
-      const text = copyText.textContent || '';
-      if(!text || text.startsWith('❗') || text.includes('Generating')) return;
-      try {
-        await navigator.clipboard.writeText(text.replace(/\s+/g,''));
-        const old = copyBtn.innerHTML;
-        copyBtn.textContent = '✔️ Copied';
-        setTimeout(()=> copyBtn.innerHTML = old, 1200);
-      } catch(e){
-        copyBtn.textContent = 'Copy Failed';
-        setTimeout(()=> copyBtn.textContent = 'Copy', 1000);
-      }
-    });
-
-    openBtn.addEventListener('click', () => {
-      const code = copyText.textContent || '';
-      const numRaw = (numberInput.value || '').replace(/\D/g,'');
-      if(!numRaw || !code || code.startsWith('❗')) return;
-      const msg = encodeURIComponent(`Hello, my pair code is: ${code}`);
-      const url = `https://wa.me/${numRaw}?text=${msg}`;
-      window.open(url, '_blank');
-    });
-
-    // do NOT prefill a real number; placeholder shows masked example
-    (function init(){
-      numberInput.value = '';
-    })();
-  </script>
-</body>
-</html><!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>XMD — Pair Code</title>
-
-  <meta property="og:title" content="XMD — Pair Code">
-  <meta property="og:description" content="Pair-code linker for WhatsApp bot — XMD">
-  <meta property="og:image" content="https://files.catbox.moe/y65ffs.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Graduate&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --accent:#25d366;
-      --accent-dark:#0aa04a;
-      --glass: rgba(255,255,255,0.06);
-      --card-bg: rgba(0,0,0,0.55);
-      --muted: rgba(255,255,255,0.75);
-    }
-    html,body{height:100%;margin:0;font-family:Inter, "Graduate", system-ui, Arial, sans-serif;background:
-      radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.03), transparent),
-      linear-gradient(180deg, #072233 0%, #001826 60%); color:#fff; -webkit-font-smoothing:antialiased;}
-
-    .back-glow{position:fixed; inset:0; pointer-events:none; z-index:0;
-      background: radial-gradient(600px 300px at 80% 10%, rgba(2,141,172,0.08), transparent);
-      mix-blend-mode: screen;}
-
-    .snow { position:fixed; inset:0; overflow:hidden; z-index:1; pointer-events:none; }
-    .flake{ position:absolute; top:-5vh; width:10px; height:10px; border-radius:50%;
-      background:linear-gradient(180deg,#ffffff,#dfefff); opacity:0.9; filter:blur(.2px);
-      transform:translateY(-10vh); animation: fall linear infinite; }
-    .flake:nth-child(odd){ width:8px; height:8px; opacity:0.8; }
-    .flake:nth-child(2n){ width:12px; height:12px; opacity:0.6; }
-    .flake:nth-child(3){ left:8%; animation-duration:9s; animation-delay:0s; }
-    .flake:nth-child(4){ left:18%; animation-duration:6s; animation-delay:1.2s; }
-    .flake:nth-child(5){ left:28%; animation-duration:8.2s; animation-delay:0.4s; }
-    .flake:nth-child(6){ left:38%; animation-duration:7.4s; animation-delay:1.6s; }
-    .flake:nth-child(7){ left:52%; animation-duration:9.6s; animation-delay:0.8s; }
-    .flake:nth-child(8){ left:66%; animation-duration:6.8s; animation-delay:1.0s; }
-    .flake:nth-child(9){ left:78%; animation-duration:8.4s; animation-delay:0.6s; }
-    .flake:nth-child(10){ left:90%; animation-duration:7.0s; animation-delay:1.8s; }
-    @keyframes fall { 0%{transform:translateY(-10vh) rotate(0deg); opacity:1} 100%{transform:translateY(110vh) rotate(360deg); opacity:0} }
-
-    .wrap{ position:relative; z-index:2; display:flex; gap:28px; align-items:center; justify-content:center;
-      min-height:100vh; padding:40px; }
-
-    .card { width:420px; max-width:calc(100% - 40px); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.06); border-radius:14px; padding:22px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-      backdrop-filter: blur(6px); }
-
-    .brand { display:flex; align-items:center; gap:14px; margin-bottom:8px; }
-    .logo { width:64px; height:64px; border-radius:12px;
-      background:linear-gradient(135deg,var(--accent),#06b37a); display:flex; align-items:center; justify-content:center;
-      font-weight:800; font-family:'Graduate'; font-size:22px; box-shadow: 0 6px 18px rgba(37,211,102,0.12); color:#012; }
-    .brand h1{ margin:0; font-size:20px; letter-spacing:0.6px; }
-    .brand p{ margin:0; font-size:12px; color:var(--muted); }
-
-    .title{ font-size:14px; color:var(--muted); margin-top:16px; margin-bottom:6px; }
-
-    .input-row { display:flex; gap:10px; margin-top:10px; }
-    .input { flex:1; display:flex; background:var(--glass); border-radius:12px; padding:8px; align-items:center;
-      border:1px solid rgba(255,255,255,0.04); }
-    .input input[type="tel"]{ width:100%; background:transparent; border:0; color:#fff; font-size:16px; padding:10px; outline:none; }
-
-    .btn { display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px;
-      background:linear-gradient(180deg,var(--accent),var(--accent-dark)); color:#012; font-weight:700; border:0;
-      cursor:pointer; box-shadow: 0 8px 20px rgba(2,141,84,0.14); transition:transform .12s ease, box-shadow .12s; }
-    .btn:active{ transform:translateY(1px); }
-    .btn.ghost{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.04); box-shadow:none; }
-
-    .hint { font-size:13px; color:var(--muted); margin-top:12px; }
-
-    .pair-box { margin-top:18px; background:var(--card-bg); padding:14px; border-radius:10px;
-      display:flex; gap:12px; align-items:center; justify-content:space-between; border:1px solid rgba(255,255,255,0.04); }
-    .pair-left { font-size:14px; color:#fff; }
-    .pair-right { display:flex; gap:8px; align-items:center; }
-
-    .code { font-weight:800; font-family: 'Graduate', sans-serif; font-size:18px; letter-spacing:1px;
-      background: linear-gradient(90deg,#fff,#cfe8ff); -webkit-background-clip:text; color:transparent; }
-
-    .small { font-size:12px; color:var(--muted); }
-
-    .spinner{ display:inline-block; width:18px; height:18px; border-radius:50%; border:3px solid rgba(255,255,255,0.12); border-top-color:#fff; animation:spin 0.9s linear infinite; }
-    @keyframes spin { to { transform:rotate(360deg); } }
-
-    footer { position:fixed; bottom:12px; left:50%; transform:translateX(-50%); font-size:13px; color:rgba(255,255,255,0.55); z-index:3; width:100%; text-align:center; pointer-events:none; }
-
-    @media (max-width:460px){ .brand h1{font-size:18px;} .logo{width:56px;height:56px;font-size:18px} }
-  </style>
-</head>
-<body>
-  <div class="back-glow"></div>
-
-  <!-- Snowflakes -->
-  <div class="snow" aria-hidden="true">
-    <div class="flake"></div>
-    <div class="flake"></div>
-    <div class="flake"></div>
-    <div class="flake"></div>
-    <div class="flake"></div>
-    <div class="flake"></div>
-    <div class="flake"></div>
-    <div class="flake"></div>
-    <div class="flake"></div>
-    <div class="flake"></div>
-  </div>
-
-  <div class="wrap">
-    <div class="card" role="main" aria-label="Pair code generator">
-      <div class="brand">
-        <div class="logo">XMD</div>
-        <div>
-          <h1>XMD</h1>
-          <p>Bot • by NIMESHKA MIHIRAN</p>
-        </div>
-      </div>
-
-      <div class="title">Enter WhatsApp number (include country code)</div>
-
-      <form id="pairForm" onsubmit="return false" autocomplete="off" novalidate>
-        <div class="input-row">
-          <div class="input" title="WhatsApp number">
-            <input id="number" type="tel" inputmode="tel" placeholder="947*************" aria-label="WhatsApp number" />
-          </div>
-          <button id="submit" class="btn" aria-label="Generate code">
-            <span id="btnText">CODE</span>
-          </button>
-        </div>
-
-        <div class="hint">Example format: <span class="small">947*************</span> — we will format it for display.</div>
-
-        <div id="pairArea" class="pair-box" style="display:none" aria-live="polite">
-          <div class="pair-left">
-            <div class="small">Your Pair Code</div>
-            <div id="copyText" class="code">— — —</div>
-            <div class="small" id="statusMsg" style="margin-top:6px"></div>
-          </div>
-
-          <div class="pair-right">
-            <button id="copyBtn" class="btn ghost" title="Copy code">Copy</button>
-            <button id="openBtn" class="btn ghost" title="Open in WhatsApp">Open</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <footer>© <strong>XMD</strong> • NIMESHKA MIHIRAN — <span id="year"></span></footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    const submit = document.getElementById('submit');
-    const numberInput = document.getElementById('number');
-    const pairArea = document.getElementById('pairArea');
-    const copyText = document.getElementById('copyText');
-    const copyBtn = document.getElementById('copyBtn');
-    const openBtn = document.getElementById('openBtn');
-    const statusMsg = document.getElementById('statusMsg');
-    const btnText = document.getElementById('btnText');
-
-    function prettyFormat(n){
-      const d = (n || '').toString().replace(/\D/g,'');
-      if(!d) return '';
-      // if starts with country code like 94
-      if(d.startsWith('94') && d.length>2) {
-        return '+' + d.slice(0,2) + ' ' + d.slice(2,5) + ' ' + d.slice(5,8) + ' ' + d.slice(8);
-      }
-      return '+' + d.replace(/(\d{1,3})(?=(\d{3})+$)/g, "$1 ");
-    }
-
-    function showLoading(on=true){
-      if(on){
-        btnText.innerHTML = '<span class="spinner" aria-hidden="true"></span>';
-        submit.disabled = true;
-        submit.style.opacity = 0.9;
-      } else {
-        btnText.textContent = 'CODE';
-        submit.disabled = false;
-      }
-    }
-
-    function fallbackCode(number){
-      const d = (number||'').replace(/\D/g,'') || Math.floor(Math.random()*9000000+1000000).toString();
-      return 'XMD' + d.slice(-6).toUpperCase();
-    }
-
-    submit.addEventListener('click', async () => {
-      const raw = numberInput.value || '';
-      const digits = raw.replace(/\D/g,'');
-      if(!digits){
-        pairArea.style.display = 'block';
-        copyText.textContent = '❗ Enter your WhatsApp number';
-        statusMsg.textContent = '';
-        return;
-      }
-      if(digits.length < 9){
-        pairArea.style.display = 'block';
-        copyText.textContent = '❗ Invalid number';
-        statusMsg.textContent = 'Make sure to include the country code e.g. 947*************';
-        return;
-      }
-
-      numberInput.value = prettyFormat(digits);
-
-      pairArea.style.display = 'block';
-      copyText.textContent = 'Generating...';
-      statusMsg.textContent = '';
-      showLoading(true);
-
-      try {
-        // request to your server endpoint; adjust path if needed
-        const response = await fetch(`/code?number=${digits}`, { method: 'GET' });
-        if(!response.ok) throw new Error('no-server');
-        const data = await response.json();
-        const code = (data && data.code) ? data.code : fallbackCode(digits);
-        copyText.textContent = code;
-        statusMsg.textContent = 'Tap Copy to copy the code.';
-      } catch (err) {
-        // fallback if server not available
-        const code = fallbackCode(digits);
-        copyText.textContent = code;
-        statusMsg.textContent = 'Using local fallback code (server unavailable).';
-      } finally {
-        showLoading(false);
-      }
-    });
-
-    copyBtn.addEventListener('click', async () => {
-      const text = copyText.textContent || '';
-      if(!text || text.startsWith('❗') || text.includes('Generating')) return;
-      try {
-        await navigator.clipboard.writeText(text.replace(/\s+/g,''));
-        const old = copyBtn.innerHTML;
-        copyBtn.textContent = '✔️ Copied';
-        setTimeout(()=> copyBtn.innerHTML = old, 1200);
-      } catch(e){
-        copyBtn.textContent = 'Copy Failed';
-        setTimeout(()=> copyBtn.textContent = 'Copy', 1000);
-      }
-    });
-
-    openBtn.addEventListener('click', () => {
-      const code = copyText.textContent || '';
-      const numRaw = (numberInput.value || '').replace(/\D/g,'');
-      if(!numRaw || !code || code.startsWith('❗')) return;
-      const msg = encodeURIComponent(`Hello, my pair code is: ${code}`);
-      const url = `https://wa.me/${numRaw}?text=${msg}`;
-      window.open(url, '_blank');
-    });
-
-    // do NOT prefill a real number; placeholder shows masked example
-    (function init(){
-      numberInput.value = '';
-    })();
-  </script>
-</body>
-</html>    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      padding: 10px 0;
-      text-align: center;
-      font-size: 14px;
-    }
-  </style>
-</head>
-<body>
-  <!-- Snowflakes -->
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-
-  <div class="container">
-      
-    <h3>❄️ session name 🪀</h3>
-    
-    <br>
-    <h3> 𝐑𝐞𝐠𝐚𝐫𝐝𝐬 ur name🎗</h3>
-    
-    <p>🔢Enter Your WhatsApp Number with Country Code.</p>
-    <br>
-    <div class="input-container">
-      <input placeholder="+94xxxxxx" type="number" id="number" name="">
-      <button id="submit">Code</button>
-    </div>
-    <div id="loading-spinner">
-      <i class="fas fa-spinner fa-spin"></i>
-    </div>
-    <br>
-    <main id="pair"></main>
-  </div>
-
-  <footer>
-    MALVIN KING &copy <span id="currentYear"></span>
-  </footer>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
-  <script>
-    let a = document.getElementById("pair");
-    let b = document.getElementById("submit");
-    let c = document.getElementById("number");
-
-    async function Copy() {
-      let text = document.getElementById("copy").innerText;
-      let obj = document.getElementById("copy");
-      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "✔️ COPIED";
-      obj.style = "color:red;font-weight:bold";
-      obj.size = "5";
-      setTimeout(() => {
-        obj.innerText = text;
-        obj.style = "color:white;font-weight-bold";
-        obj.size = "5";
-      }, 500);
-    }
-
-    b.addEventListener("click", async (e) => {
-      e.preventDefault();
-      if (!c.value) {
-        a.innerHTML = '<a style="color:red;font-weight:bold">❗ Enter your WhatsApp number with country code.</a><br><br>';
-      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:red;font-weight:bold">❗ Invalid number format. Please try again.</a><br><br>';
-      } else {
-        const bc = c.value.replace(/[^0-9]/g, "");
-        let bb = "";
-        let bbc = "";
-        const cc = bc.split('');
-        cc.map(a => {
-          bbc += a;
-          if (bbc.length == 3) {
-            bb += " " + a;
-          } else if (bbc.length == 8) {
-            bb += " " + a;
-          } else {
-            bb += a;
+    // toggle play/pause on button click
+    playBtn.addEventListener('click', async () => {
+      if (bgAudio.paused) {
+        try {
+          await bgAudio.play();
+          playBtn.textContent = '⏸';
+        } catch (e) {
+          // if still blocked, try play muted briefly then unmute (last-resort)
+          try {
+            bgAudio.muted = true;
+            await bgAudio.play();
+            bgAudio.muted = false;
+            playBtn.textContent = '⏸';
+          } catch (err) {
+            playBtn.textContent = '▶';
+            alert('Playback blocked by browser. Interact with the page (click anywhere) then try again.');
           }
-        });
-        c.type = "text";
-        c.value = "+" + bb;
-        c.style = "color:white;font-size:20px";
-        document.getElementById("loading-spinner").style.display = "block";
-        a.innerHTML = '';
-        let { data } = await axios(`/code?number=${bc}`);
-        let code = data.code || "❗ Service Unavailable";
-        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font><br><br><br>';
-        document.getElementById("loading-spinner").style.display = "none";
+        }
+      } else {
+        bgAudio.pause();
+        playBtn.textContent = '▶';
       }
     });
 
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    function prettyFormat(n){
+      const d = (n || '').toString().replace(/\D/g,'');
+      if(!d) return '';
+      if(d.startsWith('94') && d.length>2) {
+        return '+' + d.slice(0,2) + ' ' + d.slice(2,5) + ' ' + d.slice(5,8) + ' ' + d.slice(8);
+      }
+      return '+' + d.replace(/(\d{1,3})(?=(\d{3})+$)/g, "$1 ");
+    }
+
+    function showLoading(on=true){
+      if(on){
+        btnText.innerHTML = '<span class="spinner" aria-hidden="true"></span>';
+        submit.disabled = true;
+        submit.style.opacity = 0.9;
+      } else {
+        btnText.textContent = 'CODE';
+        submit.disabled = false;
+      }
+    }
+
+    function fallbackCode(number){
+      const d = (number||'').replace(/\D/g,'') || Math.floor(Math.random()*9000000+1000000).toString();
+      return 'NENO' + d.slice(-6).toUpperCase();
+    }
+
+    submit.addEventListener('click', async () => {
+      const raw = numberInput.value || '';
+      const digits = raw.replace(/\D/g,'');
+      if(!digits){
+        pairArea.style.display = 'block';
+        copyText.textContent = '❗ Enter your WhatsApp number';
+        statusMsg.textContent = '';
+        return;
+      }
+      if(digits.length < 9){
+        pairArea.style.display = 'block';
+        copyText.textContent = '❗ Invalid number';
+        statusMsg.textContent = 'Make sure to include the country code e.g. 947*************';
+        return;
+      }
+
+      numberInput.value = prettyFormat(digits);
+
+      pairArea.style.display = 'block';
+      copyText.textContent = 'Generating...';
+      statusMsg.textContent = '';
+      showLoading(true);
+
+      try {
+        const response = await fetch(`/code?number=${digits}`, { method: 'GET' });
+        if(!response.ok) throw new Error('no-server');
+        const data = await response.json();
+        const code = (data && data.code) ? data.code : fallbackCode(digits);
+        copyText.textContent = code;
+        statusMsg.textContent = 'Tap Copy to copy the code.';
+      } catch (err) {
+        const code = fallbackCode(digits);
+        copyText.textContent = code;
+        statusMsg.textContent = 'Using local fallback code (server unavailable).';
+      } finally {
+        showLoading(false);
+      }
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      const text = copyText.textContent || '';
+      if(!text || text.startsWith('❗') || text.includes('Generating')) return;
+      try {
+        await navigator.clipboard.writeText(text.replace(/\s+/g,''));
+        const old = copyBtn.innerHTML;
+        copyBtn.textContent = '✔️ Copied';
+        setTimeout(()=> copyBtn.innerHTML = old, 1200);
+      } catch(e){
+        copyBtn.textContent = 'Copy Failed';
+        setTimeout(()=> copyBtn.textContent = 'Copy', 1000);
+      }
+    });
+
+    openBtn.addEventListener('click', () => {
+      const code = copyText.textContent || '';
+      const numRaw = (numberInput.value || '').replace(/\D/g,'');
+      if(!numRaw || !code || code.startsWith('❗')) return;
+      const msg = encodeURIComponent(`Hello, my pair code is: ${code}`);
+      const url = `https://wa.me/${numRaw}?text=${msg}`;
+      window.open(url, '_blank');
+    });
+
+    // no prefill a real number; placeholder shows masked example
+    (function init(){
+      numberInput.value = '';
+    })();
   </script>
 </body>
 </html>
