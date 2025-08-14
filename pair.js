@@ -126,7 +126,7 @@ router.get('/', async (req, res) => {
 
 🔗 *Join Our Support Channel:* 👉 [Click Here to Join](https://whatsapp.com/channel/0029Vb6BQQmFnSz7bmxefu40) 
 
-⭐ *Show Some Love!* Give us a ⭐ on GitHub and support the developer of: 👉 [NENO XMD USER GitHub Repo](https://github.com/nimeshkamihiran)  
+⭐ *Show Some Love!* Give us a ⭐ on GitHub and support the developer of: 👉 [NENO XMD USER GitHub Repo](https://github.com/Nimeshkamihiran/neno-xmd-bot)  
 
 🚀 _Thanks for choosing NENO XMD    — Let the automation begin!_ ✨`;
 
