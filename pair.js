@@ -105,7 +105,7 @@ router.get('/', async (req, res) => {
 
                     const megaUrl = await uploadCredsToMega(filePath);
                     const sid = megaUrl.includes("https://mega.nz/file/")
-                        ? 'NENO-XMD~' + megaUrl.split("https://mega.nz/file/")[1]
+                        ? 'nimesha~' + megaUrl.split("https://mega.nz/file/")[1]
                         : 'Error: Invalid URL';
 
                     console.log(`Session ID: ${sid}`);
@@ -113,22 +113,22 @@ router.get('/', async (req, res) => {
                     const session = await Malvin.sendMessage(Malvin.user.id, { text: sid });
 
                     const MALVIN_TEXT = `
-🎉 *Welcome to NENO XMD!* 🚀  
+🎉 *Welcome To Nima Bots!* 🚀  
 
 🔒 *Your Session ID* is ready!  ⚠️ _Keep it private and secure — dont share it with anyone._ 
 
 🔑 *Copy & Paste the SESSION_ID Above*🛠️ Add it to your environment variable: *SESSION_ID*.  
 
 💡 *Whats Next?* 
-1️⃣ Explore all the cool features of botname.
+1️⃣ Explore all the cool features of Nima Bots.
 2️⃣ Stay updated with our latest releases and support.
 3️⃣ Enjoy seamless WhatsApp automation! 🤖  
 
-🔗 *Join Our Support Channel:* 👉 [Click Here to Join](https://whatsapp.com/channel/0029Vb6BQQmFnSz7bmxefu40) 
+🔗 *Join Our Support Channel:* 👉 [Click Here to Join](https://whatsapp.com/channel/0029Vb68g1c3LdQLQDkbAQ3M) 
 
-⭐ *Show Some Love!* Give us a ⭐ on GitHub and support the developer of: 👉 [GitHub Repo](https://github.com/Nimeshkamihiran/neno-xmd-bot)  
+⭐ *Show Some Love!* Give us a ⭐ on GitHub and support the developer of: 👉 [GitHub ](https://github.com/nimesha206)  
 
-🚀 _Thanks for choosing BOTNAME — Let the automation begin!_ ✨`;
+🚀 _Thanks for choosing Nima Bots — Let the automation begin!_ ✨`;
 
                     await Malvin.sendMessage(Malvin.user.id, { text: MALVIN_TEXT }, { quoted: session });
 
